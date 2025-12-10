@@ -25,7 +25,7 @@ CreateThread(function()
             EndTextCommandSetBlipName(blip)
         end
 
-        -- Add interaction target
+        -- Add interaction target (default using qb-target configuration)
         Bridge.CreateTargetEntity(ped, {
             options = {
                 {
