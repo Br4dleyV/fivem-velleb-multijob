@@ -3,13 +3,13 @@ local QBCore = exports['qb-core']:GetCoreObject()
 CreateThread(function()
     -- Create NPCs at the configured locations
     local model = Config.Ped
-    RequestModel(model) -- Request model
+    RequestModel(model)                            -- Request model
     while not HasModelLoaded(model) do Wait(0) end -- Wait for model to load
-    for _, loc in pairs(Config.Locations) do -- Loop through locations
+    for _, loc in pairs(Config.Locations) do       -- Loop through locations
         -- Spawn ped
         local ped = CreatePed(0, model, loc.x, loc.y, loc.z - 1.0, loc.w, false, false)
-        FreezeEntityPosition(ped, true) -- Freeze ped
-        SetEntityInvincible(ped, true) -- Make invincible
+        FreezeEntityPosition(ped, true)            -- Freeze ped
+        SetEntityInvincible(ped, true)             -- Make invincible
         SetBlockingOfNonTemporaryEvents(ped, true) -- Stops from fleeing gunshots
 
         -- Add blip if enabled
@@ -26,7 +26,7 @@ CreateThread(function()
         end
 
         -- Add interaction target
-        exports['qb-target']:AddTargetEntity(ped, {
+        Bridge.CreateTargetEntity(ped, {
             options = {
                 {
                     type = "client",
@@ -43,7 +43,7 @@ end)
 ---Event to open job selection menu
 RegisterNetEvent('velleb-multijob:client:openJobMenu', function()
     local PlayerData = QBCore.Functions.GetPlayerData() -- Get player data
-    local options = {} -- Options for context menu
+    local options = {}                                  -- Options for context menu
 
     -- Get current job and add as disabled option
     local currentJob = PlayerData.job
@@ -56,7 +56,7 @@ RegisterNetEvent('velleb-multijob:client:openJobMenu', function()
 
     -- Trigger Callback to get other jobs player has from server
     QBCore.Functions.TriggerCallback('velleb-multijob:server:getPlayerJobs', function(jobs)
-        if jobs then -- If jobs were returned
+        if jobs then                     -- If jobs were returned
             for _, job in pairs(jobs) do -- Add each job as an option to the multijob menu
                 if job.name ~= currentJob.name then
                     table.insert(options, {
@@ -76,7 +76,7 @@ RegisterNetEvent('velleb-multijob:client:openJobMenu', function()
             title = 'Select Your Job',
             options = options,
         })
-        
+
         -- Show the context menu
         exports.ox_lib:showContext('player_job_menu')
     end)

@@ -28,3 +28,9 @@ Config.Framework = dependencyCheck({
     ['qbx-core'] = "qb",
     ['es_extended'] = "esx",
 }) or "standalone"
+
+-- Auto-detect target system | Need one of these resources installed for this script to work
+Config.Target = dependencyCheck({
+    ['qb-target'] = "qb",
+    ['ox_target'] = "ox",
+}) or "standalone"

@@ -11,5 +11,5 @@ This is a multi-job system for QB-Core framework allowing players to have multip
 2. Configure script in `shared/config.lua`
 
 ## Future features
-- Bridge for more frameworks
+- Bridge for more frameworks --> Currently in development
 - Add max job limit configuration
