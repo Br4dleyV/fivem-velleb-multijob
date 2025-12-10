@@ -21,10 +21,35 @@ function getJobsFromDb(citizenid)
     return jobs
 end
 
----Callback to get player's jobs for the multijob menu
-QBCore.Functions.CreateCallback('velleb-multijob:server:getPlayerJobs', function(source, cb)
+Bridge.RegisterCallback('velleb-multijob:server:getPlayer', function(source, cb)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src) -- Get player 
+
+    -- Get player
+    local Player = Bridge.GetPlayer(src)
+
+    if Player then
+        cb(Player.PlayerData) -- Return player data
+    else
+        cb(nil) -- Return nil if player not found
+    end
+end)
+
+---Callback to get player's current data
+Bridge.RegisterCallback('velleb-multijob:server:getPlayer', function(source, cb)
+    local src = source
+    local Player = Bridge.GetPlayer(src) -- Get player
+
+    if Player then
+        cb(Player.PlayerData) -- Return player data
+    else
+        cb(nil) -- Return nil if player not found
+    end
+end)
+
+---Callback to get player's jobs for the multijob menu
+Bridge.RegisterCallback('velleb-multijob:server:getPlayerJobs', function(source, cb)
+    local src = source
+    local Player = Bridge.GetPlayer(src) -- Get player 
 
     local result = getJobsFromDb(Player.PlayerData.citizenid) -- Get jobs from database
     if not result then -- If no jobs found, return nil
@@ -38,7 +63,7 @@ end)
 ---Event to set player's job from the multijob menu
 RegisterNetEvent('velleb-multijob:server:setPlayerJob', function(data)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src) -- Get player
+    local Player = Bridge.GetPlayer(src) -- Get player
     local newJob = data.jobName -- Get new job name from data
 
     -- Validate if player has the job in their jobs list
@@ -63,7 +88,7 @@ end)
 
 ---Listener for job updates to save to database
 RegisterNetEvent('QBCore:Server:OnJobUpdate', function(source, JobInfo)
-    local Player = QBCore.Functions.GetPlayer(source) -- Get player
+    local Player = Bridge.GetPlayer(source) -- Get player
 
     if Player then
         -- Save job to database

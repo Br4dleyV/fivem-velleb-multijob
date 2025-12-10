@@ -30,3 +30,33 @@ function Bridge.CreateTargetEntity(...)
         return nil
     end
 end
+
+function Bridge.TriggerCallback(name, cb, ...)
+    if Config.Framework == "qb" then
+        local QBCore = exports['qb-core']:GetCoreObject()
+        QBCore.Functions.TriggerCallback(name, cb, ...)
+    else
+        print("No framework detected. Cannot trigger callback: " .. name)
+        return nil
+    end
+end
+
+function Bridge.Notify(message, type, length)
+    if Config.Framework == "qb" then
+        local QBCore = exports['qb-core']:GetCoreObject()
+        QBCore.Functions.Notify(message, type, length)
+    else
+        print("No notification system detected. Message: " .. message)
+    end
+end
+
+function Bridge.GetPlayerData()
+    if Config.Framework == "qb" then
+        local QBCore = exports['qb-core']:GetCoreObject()
+        local Player = QBCore.Functions.GetPlayerData()
+        return Player
+    else
+        print("No framework detected. Cannot get player data.")
+        return nil
+    end
+end

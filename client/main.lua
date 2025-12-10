@@ -42,8 +42,15 @@ end)
 
 ---Event to open job selection menu
 RegisterNetEvent('velleb-multijob:client:openJobMenu', function()
-    local PlayerData = QBCore.Functions.GetPlayerData() -- Get player data
-    local options = {}                                  -- Options for context menu
+    -- Get player data
+    local PlayerData = Bridge.GetPlayerData()
+    if not PlayerData then
+        Bridge.Notify("Could not retrieve player data.", "error")
+        return
+    end
+
+    -- Options for context menu
+    local options = {}
 
     -- Get current job and add as disabled option
     local currentJob = PlayerData.job
@@ -55,7 +62,7 @@ RegisterNetEvent('velleb-multijob:client:openJobMenu', function()
     })
 
     -- Trigger Callback to get other jobs player has from server
-    QBCore.Functions.TriggerCallback('velleb-multijob:server:getPlayerJobs', function(jobs)
+    Bridge.TriggerCallback('velleb-multijob:server:getPlayerJobs', function(jobs)
         if jobs then                     -- If jobs were returned
             for _, job in pairs(jobs) do -- Add each job as an option to the multijob menu
                 if job.name ~= currentJob.name then
