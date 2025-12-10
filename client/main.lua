@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 CreateThread(function()
     -- Create NPCs at the configured locations
     local model = Config.Ped
