@@ -1,5 +1,8 @@
 Bridge = {}
 
+---Function to create target entity for interaction
+---@param ... any
+---@return any
 function Bridge.CreateTargetEntity(...)
     if Config.Target == "qb" then
         return exports['qb-target']:AddTargetEntity(...)
@@ -31,6 +34,10 @@ function Bridge.CreateTargetEntity(...)
     end
 end
 
+---Function to trigger a server callback
+---@param name string
+---@param cb function
+---@param ... any
 function Bridge.TriggerCallback(name, cb, ...)
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
@@ -41,6 +48,10 @@ function Bridge.TriggerCallback(name, cb, ...)
     end
 end
 
+---Function to send notification to player
+---@param message string
+---@param type string
+---@param length number
 function Bridge.Notify(message, type, length)
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
@@ -50,6 +61,8 @@ function Bridge.Notify(message, type, length)
     end
 end
 
+---Function to get player data
+---@return table|nil
 function Bridge.GetPlayerData()
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
