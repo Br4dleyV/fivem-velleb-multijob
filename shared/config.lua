@@ -1,15 +1,4 @@
----Function to check for dependencies | DO NOT EDIT
----@param data table
----@return string|nil
-function dependencyCheck(data) 
-    for resourcename, framework in pairs(data) do
-        if GetResourceState(resourcename) == "started" then
-            return framework
-        end
-    end
-    return nil
-end
-
+-- Configuration | Feel free to edit settings here
 Config = {
     EnableBlips = true, -- Shows blips on the map for the NPCs
     Locations = { -- Locations where the job changer NPCs will spawn
@@ -21,6 +10,22 @@ Config = {
     },
     Ped = 'a_m_m_business_01' -- Ped model for the job changer NPCs
 }
+
+--- ###############################
+--- # DO NOT EDIT BELOW THIS LINE #
+--- ###############################
+
+---Function to check for dependencies | DO NOT EDIT
+---@param data table
+---@return string|nil
+function dependencyCheck(data) 
+    for resourcename, framework in pairs(data) do
+        if GetResourceState(resourcename) == "started" then
+            return framework
+        end
+    end
+    return nil
+end
 
 -- Auto-detect framework
 Config.Framework = dependencyCheck({
