@@ -66,7 +66,7 @@ RegisterNetEvent('velleb-multijob:server:setPlayerJob', function(data)
             if frameworkJobs[newJob] then -- Validate if job exists in shared jobs
                 Player.Functions.SetJob(newJob, job.grade) -- Set player's job
                 Player.Functions.SetJobDuty(frameworkJobs[newJob].defaultDuty) -- Set job duty based on defaultDuty
-                Bridge.Notify(src, 'Your job has been changed to ' .. frameworkJobs[newJob].label, 'success')
+                Bridge.Notify(src, 'Your job has been changed to ' .. frameworkJobs[newJob].label .. '.', 'success') -- Notify player of job change
                 return
             else
                 Bridge.Notify(src, 'Please contact an administrator.', 'error') -- Notify player to contact admin if job doesn't exist
@@ -98,8 +98,6 @@ RegisterNetEvent('QBCore:Server:OnJobUpdate', function(source, JobInfo)
                 MySQL.insert.await('INSERT INTO player_jobs (citizenid, job, grade) VALUES (:citizenid, :job, :grade)',
                     { citizenid = Player.PlayerData.citizenid, job = JobInfo.name, grade = JobInfo.grade.level })
             end
-
-            Bridge.Notify(source, 'Your job has been updated to ' .. JobInfo.label, 'success') -- Notify player of job update
         end
     end
 end)
