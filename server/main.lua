@@ -51,6 +51,7 @@ Bridge.RegisterCallback('velleb-multijob:server:getPlayerJobs', function(source,
     end
 
     local identifier = Bridge.GetIdentifier(Player)
+    if not identifier then cb(nil) return end
     local result = getJobsFromDb(identifier) -- Get jobs from database
     if not result then -- If no jobs found, return nil
         cb(nil)
@@ -68,6 +69,7 @@ RegisterNetEvent('velleb-multijob:server:setPlayerJob', function(data)
 
     local newJob = data.jobName -- Get new job name from data
     local identifier = Bridge.GetIdentifier(Player)
+    if not identifier then cb(nil) return end
 
     -- Validate if player has the job in their jobs list
     local jobs = getJobsFromDb(identifier) -- Get jobs from database
@@ -101,11 +103,10 @@ RegisterNetEvent('velleb-multijob:server:setPlayerJob', function(data)
 end)
 
 ---Listener for job updates to save to database
--- This Bridge function automatically handles the difference between
--- 'QBCore:Server:OnJobUpdate' and 'esx:setJob'
 Bridge.OnJobUpdate(function(source, Player, JobInfo)
     if Player and JobInfo then
         local identifier = Bridge.GetIdentifier(Player)
+        if not identifier then cb(nil) return end
 
         -- Dynamic SQL Queries based on Framework variables defined at the top
         local selectQuery = string.format('SELECT 1 FROM %s WHERE %s = :id AND job = :job', tableName, idColumn)
@@ -135,8 +136,5 @@ Bridge.OnJobUpdate(function(source, Player, JobInfo)
                 grade = JobInfo.grade
             })
         end
-
-        -- Optional: Notify the player
-        -- Bridge.Notify(source, 'Job saved: ' .. JobInfo.label, 'success')
     end
 end)

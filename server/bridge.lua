@@ -47,6 +47,7 @@ function Bridge.GetFrameworkJobs()
 end
 
 ---Function to send notification to player
+---@param src number
 ---@param message string
 ---@param type string
 ---@param length number
@@ -68,6 +69,9 @@ function Bridge.GetIdentifier(Player)
         return Player.PlayerData.citizenid
     elseif Config.Framework == "esx" then
         return Player.identifier
+    else
+        print("No framework detected. Cannot get identifier.")
+        return nil
     end
 end
 
@@ -80,6 +84,8 @@ function Bridge.SetJob(Player, jobName, grade)
         Player.Functions.SetJob(jobName, grade)
     elseif Config.Framework == "esx" then
         Player.setJob(jobName, grade)
+    else
+        print("No framework detected. Cannot set job for player.")
     end
 end
 
