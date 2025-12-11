@@ -42,6 +42,9 @@ function Bridge.TriggerCallback(name, cb, ...)
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
         QBCore.Functions.TriggerCallback(name, cb, ...)
+    elseif Config.Framework == "esx" then
+        local ESX = exports['es_extended']:getSharedObject()
+        ESX.TriggerServerCallback(name, cb, ...)
     else
         print("No framework detected. Cannot trigger callback: " .. name)
         return nil
@@ -68,6 +71,9 @@ function Bridge.GetPlayerData()
         local QBCore = exports['qb-core']:GetCoreObject()
         local Player = QBCore.Functions.GetPlayerData()
         return Player
+    elseif Config.Framework == "esx" then
+        local ESX = exports['es_extended']:getSharedObject()
+        return ESX.GetPlayerData()
     else
         print("No framework detected. Cannot get player data.")
         return nil

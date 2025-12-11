@@ -7,6 +7,9 @@ function Bridge.RegisterCallback(name, cb)
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
         QBCore.Functions.CreateCallback(name, cb)
+    elseif Config.Framework == "esx" then
+        local ESX = exports['es_extended']:getSharedObject()
+        ESX.RegisterServerCallback(name, cb)
     else
         print("No framework detected. Cannot register callback: " .. name)
     end
@@ -19,6 +22,9 @@ function Bridge.GetPlayer(source)
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
         return QBCore.Functions.GetPlayer(source)
+    elseif Config.Framework == "esx" then
+        local ESX = exports['es_extended']:getSharedObject()
+        return ESX.GetPlayerFromId(source)
     else
         print("No framework detected. Cannot get player for source: " .. tostring(source))
         return nil
@@ -31,6 +37,9 @@ function Bridge.GetFrameworkJobs()
     if Config.Framework == "qb" then
         local QBCore = exports['qb-core']:GetCoreObject()
         return QBCore.Shared.Jobs
+    elseif Config.Framework == "esx" then
+        local ESX = exports['es_extended']:getSharedObject()
+        return ESX.GetJobs()
     else
         print("No framework detected. Cannot get framework jobs.")
         return nil
@@ -44,6 +53,8 @@ end
 function Bridge.Notify(src, message, type, length)
     if Config.Framework == "qb" then
         TriggerClientEvent('QBCore:Notify', src, message, type, length or 5000)
+    elseif Config.Framework == "esx" then
+        TriggerClientEvent('esx:showNotification', src, message)
     else
         print("No notification system detected. Message: " .. message)
     end
