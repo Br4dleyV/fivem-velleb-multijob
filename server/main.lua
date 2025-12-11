@@ -1,4 +1,7 @@
 -- Define table and id column names based on framework so we don't repeat if/else in every query
+local tableName = Config.Framework == 'qb' and 'player_jobs' or 'user_jobs'
+local idColumn = Config.Framework == 'qb' and 'citizenid' or 'identifier'
+
 ---Function to get players current jobs from the database
 ---@param identifier string
 ---@return table|nil
