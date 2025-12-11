@@ -1,10 +1,17 @@
 ---Function to get players current jobs from the database
----@param citizenid string
+---@param src number
 ---@return table|nil
-function getJobsFromDb(citizenid)
+function getJobsFromDb(identifier)
     local jobs = {} -- Empty table to hold jobs
-    local result = exports.oxmysql:fetchSync('SELECT job, grade FROM player_jobs WHERE citizenid = :citizenid', { citizenid = citizenid }) -- Fetch jobs from database
-    if result then -- If there are results
+    local result
+
+    if Config.Framework == 'qb' then
+        result = MySQL.query.await('SELECT job, grade FROM player_jobs WHERE citizenid = :citizenid', { citizenid = identifier })
+    elseif Config.Framework == 'esx' then
+        result = MySQL.query.await('SELECT job, grade FROM user_jobs WHERE identifier = :identifier', { identifier = identifier })
+    end
+
+    if result and #result > 0 then -- If there are results
         local frameworkJobs = Bridge.GetFrameworkJobs()
         if not frameworkJobs then return nil end
         for _, row in pairs(result) do -- Add job to jobs table
@@ -41,7 +48,7 @@ Bridge.RegisterCallback('velleb-multijob:server:getPlayerJobs', function(source,
     local Player = Bridge.GetPlayer(src) -- Get player 
     if not Player then cb(nil) return end
 
-    local result = getJobsFromDb(Player.PlayerData.citizenid) -- Get jobs from database
+    local result = getJobsFromDb(src) -- Get jobs from database
     if not result then -- If no jobs found, return nil
         cb(nil)
         return
