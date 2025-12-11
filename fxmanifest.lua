@@ -26,3 +26,7 @@ server_scripts {
     'server/bridge.lua',
     "server/main.lua",
 }
+
+escrow_ignore {
+    'shared/config.lua',
+}
