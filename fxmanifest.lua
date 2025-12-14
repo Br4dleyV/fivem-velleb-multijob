@@ -3,7 +3,7 @@ game "gta5"
 lua54 "yes"
 
 description "Multi-Job System with ox-lib and oxmysql"
-version 'v1.0.3'
+version 'v1.1.0'
 author "https://velleb.be"
 
 dependencies {
