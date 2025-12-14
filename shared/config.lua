@@ -1,6 +1,6 @@
 -- Configuration | Feel free to edit settings here
 Config = {
-    UseTarget = false, -- Enable/Disable target system usage (if false, will use ox_lib zone, otherwise requires qb-target or ox_target to make target)
+    UseTarget = true, -- Enable/Disable target system usage (if false, will use ox_lib zone, otherwise requires qb-target or ox_target to make target)
     EnableBlips = true, -- Shows blips on the map for the NPCs
     Locations = { -- Locations where the job changer NPCs will spawn
         vector4(431.99, -985.73, 30.71, 41.46),
