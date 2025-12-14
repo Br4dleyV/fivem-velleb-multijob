@@ -23,18 +23,26 @@ CreateThread(function()
             EndTextCommandSetBlipName(blip)
         end
 
-        -- Add interaction target (default using qb-target configuration)
-        Bridge.CreateTargetEntity(ped, {
-            options = {
-                {
-                    type = "client",
-                    event = "velleb-multijob:client:openJobMenu",
-                    icon = "fas fa-briefcase",
-                    label = "Change Job",
-                }
-            },
-            distance = 2.5,
-        })
+        -- Add interaction target or zone
+        if Config.UseTarget then
+            Bridge.CreateTargetEntity(ped, {
+                options = {
+                    {
+                        type = "client",
+                        event = "velleb-multijob:client:openJobMenu",
+                        icon = "fas fa-briefcase",
+                        label = "Change Job",
+                    }
+                },
+                distance = 2.5,
+            })
+        else
+            Bridge.CreateZone(ped, {
+                event = "velleb-multijob:client:openJobMenu",
+                label = "Press [E] to Change Job",
+                distance = 2.5
+            })
+        end
     end
 end)
 

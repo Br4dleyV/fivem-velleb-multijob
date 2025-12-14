@@ -34,6 +34,41 @@ function Bridge.CreateTargetEntity(...)
     end
 end
 
+---Function to create an interaction zone
+---@param entity number The entity to attach the zone to.
+---@param options table A table with zone options.
+---@return table -- The zone object from ox_lib.
+function Bridge.CreateZone(entity, options)
+    -- Check if 'lib' is loaded (from @ox_lib/init.lua)
+    if not lib or not lib.points then
+        print("^1Error: ox_lib is not loaded. Add '@ox_lib/init.lua' to fxmanifest.lua^7")
+        return
+    end
+
+    -- Create the point using the global 'lib' object
+    local point = lib.points.new({
+        coords = GetEntityCoords(entity),
+        distance = options.distance or 2.5,
+        onExit = function()
+            -- Hide UI when leaving
+            lib.hideTextUI()
+        end,
+        nearby = function()
+            -- Show UI when near
+            lib.showTextUI(options.label or 'Press [E] to interact')
+
+            -- Check for interaction key (E)
+            if IsControlJustReleased(0, 38) then
+                if options.event then
+                    TriggerEvent(options.event, entity)
+                end
+            end
+        end
+    })
+
+    return point
+end
+
 ---Function to trigger a server callback
 ---@param name string
 ---@param cb function
