@@ -2,9 +2,9 @@ fx_version "cerulean"
 game "gta5"
 lua54 "yes"
 
+author 'Bradley <bradley@velleb.com>'
 description "Multi-Job System with ox-lib and oxmysql"
 version 'v1.1.0'
-author "https://velleb.be"
 
 dependencies {
     "oxmysql",
